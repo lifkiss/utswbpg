@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2024 at 12:37 PM
+-- Generation Time: Oct 14, 2024 at 01:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -42,10 +42,9 @@ CREATE TABLE `concerts` (
 --
 
 INSERT INTO `concerts` (`id`, `name`, `date`, `location`, `max_participants`, `image`, `description`) VALUES
-(7, 'Hivi!', '2024-10-30', '0', 2000, 'uploads/girl_vampire_jewelry_1054796_1920x1080.jpg', 'HIVI! merupakan sebuah grup musik pop Indonesia yang dibentuk di Jakarta pada tahun 2009. Grup musik ini beranggotakan tiga orang yaitu Neida Aleida, Ilham Aditama, dan Febrian Nindyo. Grup musik ini bergenre pop.'),
-(12, 'Polyphia', '2024-11-24', '0', 5000, 'uploads/polyphia.jpg', 'Polyphia adalah band rock progresif instrumental yang berbasis di Plano, Texas, dibentuk pada tahun 2010. Grup ini terdiri dari gitaris Tim Henson dan Scott LePage, bassis Clay Gober, dan drummer Clay Aeschliman. Suara Polyphia terkenal karena menggabungkan bagian gitar virtuoso dengan gaya musik lainnya'),
-(13, 'Arash Buana', '2024-10-14', '0', 2000, 'uploads/arash.jpg', 'arash buana ngonser di UMN coyy kapan lagi masa ga ikut sih'),
-(15, 'Malam Puncak', '2024-10-14', '0', 2000, 'uploads/konser.jpg', 'adfsadas');
+(7, 'Hivi', '2024-10-01', 'UMN', 999, 'uploads/girl_vampire_jewelry_1054796_1920x1080.jpg', 'HIVI merupakan sebuah grup musik pop Indonesia yang dibentuk di Jakarta pada tahun 2009. Grup musik ini beranggotakan tiga orang yaitu Neida Aleida, Ilham Aditama, dan Febrian Nindyo. Grup musik ini bergenre pop.'),
+(12, 'Polyphia', '2024-11-24', 'Pradita', 5000, 'uploads/polyphia.jpg', 'Polyphia adalah band rock progresif instrumental yang berbasis di Plano, Texas, dibentuk pada tahun 2010. Grup ini terdiri dari gitaris Tim Henson dan Scott LePage, bassis Clay Gober, dan drummer Clay Aeschliman. Suara Polyphia terkenal karena menggabungkan bagian gitar virtuoso dengan gaya musik lainnya'),
+(13, 'Arash Buana', '2024-10-14', 'UMN', 2, 'uploads/arash.jpg', 'Arash Buana ngonser di UMN coyy kapan lagi masa ga ikut sih');
 
 -- --------------------------------------------------------
 
@@ -70,8 +69,19 @@ CREATE TABLE `events` (
 CREATE TABLE `registrations` (
   `id` int(11) NOT NULL,
   `concert_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `registration_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `registrations`
+--
+
+INSERT INTO `registrations` (`id`, `concert_id`, `name`, `email`, `registration_date`) VALUES
+(1, 7, 'marco stefanus', 'marco@gmail.com', '2024-10-14 11:11:40'),
+(2, 13, 'nartan adi chandra', 'natan.adichandra@gmail.com', '2024-10-14 11:13:58'),
+(3, 13, 'marco', 'marco@gmail.com', '2024-10-14 11:18:48');
 
 -- --------------------------------------------------------
 
@@ -117,8 +127,7 @@ ALTER TABLE `events`
 --
 ALTER TABLE `registrations`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `concert_id` (`concert_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `concert_id` (`concert_id`);
 
 --
 -- Indexes for table `users`
@@ -134,7 +143,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `concerts`
 --
 ALTER TABLE `concerts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -146,7 +155,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `registrations`
 --
 ALTER TABLE `registrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -162,8 +171,7 @@ ALTER TABLE `users`
 -- Constraints for table `registrations`
 --
 ALTER TABLE `registrations`
-  ADD CONSTRAINT `registrations_ibfk_1` FOREIGN KEY (`concert_id`) REFERENCES `concerts` (`id`),
-  ADD CONSTRAINT `registrations_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `registrations_ibfk_1` FOREIGN KEY (`concert_id`) REFERENCES `concerts` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
