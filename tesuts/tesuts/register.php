@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -20,7 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ss", $username, $password);
 
     if ($stmt->execute()) {
-        echo "Registrasi berhasil. Silakan login.";
+        header("Location: login.php");
+        exit(); // Menghentikan eksekusi skrip setelah redirect
     } else {
         echo "Gagal registrasi: " . $conn->error;
     }
@@ -40,7 +42,7 @@ $conn->close();
 </head>
 <body>
     <h1>Registrasi</h1>
-    <form method="POST" action="">
+    <form action="" method="POST">
         <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit">Daftar</button>
